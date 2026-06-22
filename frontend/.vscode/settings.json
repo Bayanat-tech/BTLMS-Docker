@@ -1,0 +1,17 @@
+{
+  "CodeGPT.apiKey": "CodeGPT Plus Beta",
+  "notebook.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFoldingRangeProvider": "dbaeumer.vscode-eslint",
+  "editor.quickSuggestions": {
+    "comments": "off",
+    "strings": "off",
+    "other": "off"
+  },
+  "cSpell.words": [
+    "Purchaserequest"
+  ],
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
+}
