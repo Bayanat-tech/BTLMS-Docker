@@ -1,0 +1,117 @@
+Attached Element Context from Integrated Browser
+
+Element: div.MuiBackdrop-root.MuiModal-backdrop.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop
+
+URL: http://localhost:3000/hr/activity/request/leave_request
+
+HTML Path: div.MuiModal-root.css-79ws1d-MuiModal-root > div.MuiBackdrop-root.MuiModal-backdrop.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop
+
+Outer HTML:
+```html
+<div aria-hidden="true" class="MuiBackdrop-root MuiModal-backdrop css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop" style="opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1);"></div>
+```
+
+Dimensions:
+- top: 0px
+- left: 0px
+- width: 1635px
+- height: 716px
+
+CSS:
+```css
+element { opacity: 1; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1); }
+*, ::before, ::after { --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ; }
+*, ::before, ::after { box-sizing: border-box; /* 1 */
+  border-width: 0; /* 2 */
+  border-style: solid; /* 2 */
+  border-color: #e5e7eb; /* 2 */ }
+*, *::before, *::after { box-sizing:inherit; }
+.css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop { position:fixed;display:flex;align-items:center;justify-content:center;right:0;bottom:0;top:0;left:0;background-color:rgba(0, 0, 0, 0.5);-webkit-tap-highlight-color:transparent;z-index:-1; }
+
+/* Pseudo-elements */
+::before, ::after { --tw-content: ''; }
+
+/* Inherited */
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol' }
+body { font-family: 'Nunito', sans-serif }
+body { color:#262626; font-size:0.875rem; line-height:1.57; font-family:'Segoe UI',sans-serif; font-weight:400 }
+html, :host { line-height: 1.5 }
+
+/* Resolved values */
+border: 0px solid rgb(229, 231, 235);
+transition: opacity 0.225s cubic-bezier(0.4, 0, 0.2, 1);
+-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+align-items: center;
+background-color: rgba(0, 0, 0, 0.5);
+bottom: 0px;
+box-sizing: border-box;
+color: rgb(38, 38, 38);
+display: flex;
+font-family: "Segoe UI", sans-serif;
+font-feature-settings: normal;
+font-size: 14px;
+font-weight: 400;
+height: 716.444px;
+justify-content: center;
+left: 0px;
+line-height: 21.98px;
+opacity: 1;
+position: fixed;
+right: 0px;
+tab-size: 4;
+top: 0px;
+unicode-bidi: isolate /*UA*/;
+width: 1634.67px;
+z-index: -1;
+```
