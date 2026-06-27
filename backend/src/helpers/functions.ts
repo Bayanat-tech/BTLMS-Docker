@@ -11,7 +11,6 @@ import {
 import jsonwebtoken from "jsonwebtoken";
 import constants from "./constants";
 import { StructuredResult } from "../interfaces/auth.interface";
-import { TiPackdetSeriesService } from "../services/tiPackdetSeries.service";
 import { LogService } from "../services/log.service";
 const nodemailer = require("nodemailer");
 import {
@@ -588,23 +587,11 @@ export const getTiPackdetSeriesData = async ({
   job_no: string;
   packdet_no: number;
 }) => {
-  try {
-    // Use TypeORM Service instead of Sequelize model
-    const packDetSeriesData = await TiPackdetSeriesService.findByPackdetNo(
-      company_code,
-      prin_code,
-      job_no,
-      packdet_no
-    );
-
-    if (packDetSeriesData.length > 0) {
-      return packDetSeriesData;
-    }
-    return [];
-  } catch (error: any) {
-    console.log("Error Occurred in getTiPackdetSeriesData:", error.message);
-    return error.message;
-  }
+  void company_code;
+  void prin_code;
+  void job_no;
+  void packdet_no;
+  return [];
 };
 
 // ---------- Stock Detail Report ------------
