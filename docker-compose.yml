@@ -1,0 +1,27 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfile
+
+    image: btlms-backend:${BTLMS_IMAGE_TAG:-latest}
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+
+    ports:
+      - "3500"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: dockerfile
+
+    image: btlms-frontend:${BTLMS_IMAGE_TAG:-latest}
+    restart: unless-stopped
+
+    depends_on:
+      - backend
+
+    ports:
+      - "3002:80"
