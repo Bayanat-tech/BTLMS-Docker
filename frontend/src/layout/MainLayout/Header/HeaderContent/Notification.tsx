@@ -235,7 +235,7 @@ const Notification = () => {
                         }
                       }}
                     >
-                      {logData?.tableData.map((item, index) => (
+                      {logData?.tableData.map((item: any, index: number) => (
                         <ListItem divider>
                           <ListItemButton selected={(logCount?.count as number) > 0}>
                             <ListItemAvatar>
@@ -286,3 +286,4 @@ const Notification = () => {
 };
 
 export default Notification;
+

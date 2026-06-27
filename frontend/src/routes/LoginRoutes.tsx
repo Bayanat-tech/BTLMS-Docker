@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { Navigate } from 'react-router-dom';
 
 // project import
 import GuestGuard from 'utils/route-guard/GuestGuard';
@@ -7,7 +8,6 @@ import Loadable from 'components/Loadable';
 
 // render - login
 const AuthLogin = Loadable(lazy(() => import('pages/auth/login')));
-const AuthRegister = Loadable(lazy(() => import('pages/auth/register')));
 const AuthForgotPassword = Loadable(lazy(() => import('pages/auth/forgot-password')));
 const AuthCheckMail = Loadable(lazy(() => import('pages/auth/check-mail')));
 const AuthResetPassword = Loadable(lazy(() => import('pages/auth/reset-password')));
@@ -39,7 +39,7 @@ const LoginRoutes = {
         },
         {
           path: 'register',
-          element: <AuthRegister />
+          element: <Navigate to="/login" replace />
         },
         {
           path: 'forgot-password',

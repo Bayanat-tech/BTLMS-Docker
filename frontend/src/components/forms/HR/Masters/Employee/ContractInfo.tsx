@@ -6,7 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useQuery } from '@tanstack/react-query';
 import dayjs, { Dayjs } from 'dayjs';
 import { getIn, useFormik } from 'formik';
-import { TContractHr, TContractTableHr } from 'pages/WMS/types/employee-hr.types';
+import { TContractHr, TContractTableHr } from 'pages/HR/type/employee-hr.types';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import HrServiceInstance from 'service/Service.hr';
@@ -103,7 +103,7 @@ export const ContractInfo = ({
             id="contractType"
             value={
               !!formik.values.contract_type
-                ? contractData?.tableData.find((eachContract) => eachContract.contract_type === formik.values.contract_type)
+                ? contractData?.tableData.find((eachContract: any) => eachContract.contract_type === formik.values.contract_type)
                 : ({ contract_type_desc: '' } as TContractTableHr)
             }
             onChange={(event, value: TContractTableHr | null) => {
@@ -236,3 +236,5 @@ export const ContractInfo = ({
     </Grid>
   );
 };
+
+

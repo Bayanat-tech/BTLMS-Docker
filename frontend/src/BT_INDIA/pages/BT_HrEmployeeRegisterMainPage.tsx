@@ -27,7 +27,7 @@ import dayjs from 'dayjs';
 import { InfoIcon } from 'lucide-react';
 import useAuth from 'hooks/useAuth';
 import { useIntl } from 'react-intl';
-// import WmsSerivceInstance from 'service/wms/service.wms';
+// import WmsSerivceInstance from 'service/MasterService';
 import HrServiceInstance from '../service/Services.Inhr';
 import BTHrServiceInstance from '../service/Services.Inhr';
 
@@ -128,7 +128,7 @@ const { data: employees = [], isLoading: employeesLoading } = useQuery<IHrEmploy
 
   useEffect(() => {
     if (employees && employees.length > 0 && user?.loginid1 && !selectedEmployee) {
-      const currentUser = employees.find(emp => 
+      const currentUser = employees.find((emp: IHrEmployee) => 
         emp.EMPLOYEE_ID?.toString() === user.loginid1?.toString()
       );
       
@@ -144,7 +144,7 @@ const { data: employees = [], isLoading: employeesLoading } = useQuery<IHrEmploy
 
   useEffect(() => {
     if (employees && employees.length > 0 && user?.loginid1) {
-      const currentUser = employees.find(emp => 
+      const currentUser = employees.find((emp: IHrEmployee) => 
         emp.EMPLOYEE_ID?.toString() === user.loginid1?.toString()
       );
       if (currentUser && !selectedEmployee) {
@@ -644,7 +644,7 @@ const { data: leaveBalance = [], isLoading: leaveBalanceLoading } = useQuery<ILe
           ) : (
             <div className="space-y-2">
               {/* Show all leave types if showAllLeaves is true, otherwise show first 10 */}
-              {(showAllLeaves ? leaveBalance : leaveBalance.slice(0, 10)).filter(balance => balance && balance.LEAVE_TYPE).map((balance) => {
+              {(showAllLeaves ? leaveBalance : leaveBalance.slice(0, 10)).filter((balance: ILeaveBalance) => balance && balance.LEAVE_TYPE).map((balance: ILeaveBalance) => {
                 const balanceValue =
                   balance?.NO_OF_LEAVES_AVAILABLE != null ? Number(balance.NO_OF_LEAVES_AVAILABLE) : 0;
 
@@ -692,3 +692,6 @@ const { data: leaveBalance = [], isLoading: leaveBalanceLoading } = useQuery<ILe
 };
 
 export default BT_HrEmployeeRegisterMainPage;
+
+
+

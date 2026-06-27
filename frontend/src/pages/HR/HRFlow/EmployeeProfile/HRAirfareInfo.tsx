@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TEMPLOYEES } from 'pages/WMS/types/employee-hr.types';
+import { TEMPLOYEES } from 'pages/HR/type/employee-hr.types';
 
 interface HRAirfareInfoProps {
   initialData?: Partial<TEMPLOYEES>;
@@ -109,3 +109,4 @@ export const HRAirfareInfo: React.FC<HRAirfareInfoProps> = ({ isEditMode /*, emp
     </Grid>
   );
 };
+

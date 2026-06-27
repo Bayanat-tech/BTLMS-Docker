@@ -1,7 +1,7 @@
 import { Autocomplete, Button, Grid, InputLabel, MenuItem, Select, Stack, TextField, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { useFormik } from 'formik';
-import { TAirfareHr, TAirport } from 'pages/WMS/types/employee-hr.types';
+import { TAirfareHr, TAirport } from 'pages/HR/type/employee-hr.types';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
@@ -97,7 +97,7 @@ export const AirfareInfo = ({
             id="farCode"
             value={
               !!formik.values.airport_code
-                ? airportData?.tableData.find((eachAirport) => eachAirport.airport_code === formik.values.airport_code)
+                ? airportData?.tableData.find((eachAirport: TAirport) => eachAirport.airport_code === formik.values.airport_code)
                 : ({ airport_name: '' } as TAirport)
             }
             onChange={(event, value: TAirport | null) => {
@@ -265,3 +265,6 @@ export const AirfareInfo = ({
     </Grid>
   );
 };
+
+
+

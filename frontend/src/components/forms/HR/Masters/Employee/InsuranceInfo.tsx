@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TIsuranceHr } from 'pages/WMS/types/employee-hr.types';
+import { TIsuranceHr } from 'pages/HR/type/employee-hr.types';
 import { useFormik } from 'formik';
 import dayjs, { Dayjs } from 'dayjs';
 import { useEffect } from 'react';
@@ -134,3 +134,4 @@ export const InsuranceInfo = ({
     </Grid>
   );
 };
+

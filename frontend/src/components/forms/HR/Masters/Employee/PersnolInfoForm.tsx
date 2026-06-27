@@ -9,8 +9,8 @@ import { ISearch } from 'components/filters/SearchFilter';
 import ImageCrop from 'components/popup/ImageCrop';
 import dayjs, { Dayjs } from 'dayjs';
 import { getIn, useFormik } from 'formik';
-import { TCountry } from 'pages/WMS/types/country-wms.types';
-import { TDepartment } from 'pages/WMS/types/department-wms.types';
+import { TCountry } from 'pages/HR/type/employee-hr.types';
+import { TDepartment } from 'pages/HR/type/department-hr.types';
 import {
   TCategoryHr,
   TDesgHr,
@@ -20,14 +20,14 @@ import {
   TGradeHr,
   TPersnolHr,
   TSectionHr
-} from 'pages/WMS/types/employee-hr.types';
+} from 'pages/HR/type/employee-hr.types';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'react-redux';
 //import HrServiceInstance from 'service/HR/service.hr';
 // import HrServiceInstance from 'service/HR/service.hr';
 import HrServiceInstance from 'service/Service.hr';
-import WmsSerivceInstance from 'service/wms/service.wms';
+import WmsSerivceInstance from 'service/MasterService';
 import * as yup from 'yup';
 const PersnolInfoForm = ({
   handleNext,
@@ -260,7 +260,7 @@ const PersnolInfoForm = ({
                 id="employeeDivision"
                 value={
                   !!formik.values.div_code
-                    ? divisionData?.tableData.find((eachDiv) => eachDiv.div_code === formik.values.div_code)
+                    ? divisionData?.tableData.find((eachDiv: any) => eachDiv.div_code === formik.values.div_code)
                     : ({ div_name: '' } as TDivision)
                 }
                 onChange={(event, value: TDivision | null) => {
@@ -297,7 +297,7 @@ const PersnolInfoForm = ({
                 id="employeeDept"
                 value={
                   !!formik.values.dept_code
-                    ? departmentData?.tableData.find((eachDepartment) => eachDepartment.dept_code === formik.values.dept_code)
+                    ? departmentData?.tableData.find((eachDepartment: any) => eachDepartment.dept_code === formik.values.dept_code)
                     : ({ dept_name: '' } as TDepartment)
                 }
                 onChange={(event, value: TDepartment | null) => {
@@ -334,7 +334,7 @@ const PersnolInfoForm = ({
                 disabled={!sectionData ? true : false}
                 value={
                   !!formik.values.section_code
-                    ? sectionData?.tableData.find((eachSection) => eachSection.section_code === formik.values.section_code)
+                    ? sectionData?.tableData.find((eachSection: any) => eachSection.section_code === formik.values.section_code)
                     : ({ section_name: '' } as TSectionHr)
                 }
                 onChange={(event, value: TSectionHr | null) => {
@@ -483,7 +483,7 @@ const PersnolInfoForm = ({
               id="grade"
               value={
                 !!formik.values.grade_code
-                  ? gradeData?.tableData.find((eachCategory) => eachCategory.grade_code === formik.values.grade_code)
+                  ? gradeData?.tableData.find((eachCategory: any) => eachCategory.grade_code === formik.values.grade_code)
                   : ({ grade_name: '' } as TGradeHr)
               }
               onChange={(event, value: TGradeHr | null) => {
@@ -521,7 +521,7 @@ const PersnolInfoForm = ({
                 id="designation"
                 value={
                   !!formik.values.desg_code
-                    ? designationData?.tableData?.find((eachDesg) => eachDesg.desg_code === formik.values.desg_code)
+                    ? designationData?.tableData?.find((eachDesg: any) => eachDesg.desg_code === formik.values.desg_code)
                     : ({ desg_name: '' } as TDesgHr)
                 }
                 onChange={(event, value: TDesgHr | null) => {
@@ -556,7 +556,7 @@ const PersnolInfoForm = ({
                 id="formalDesignation"
                 value={
                   !!formik.values.labour_desg_code
-                    ? formalDesignationData?.tableData.find((eachFormal) => eachFormal.labour_desg_code === formik.values.labour_desg_code)
+                    ? formalDesignationData?.tableData.find((eachFormal: any) => eachFormal.labour_desg_code === formik.values.labour_desg_code)
                     : ({ labour_desg_name: '' } as TFormalDesgHr)
                 }
                 onChange={(event, value: TFormalDesgHr | null) => {
@@ -597,7 +597,7 @@ const PersnolInfoForm = ({
               id="category"
               value={
                 !!formik.values.category_code
-                  ? categoryData?.tableData.find((eachCategory) => eachCategory.category_code === formik.values.category_code)
+                  ? categoryData?.tableData.find((eachCategory: any) => eachCategory.category_code === formik.values.category_code)
                   : ({ category_name: '' } as TCategoryHr)
               }
               onChange={(event, value: TCategoryHr | null) => {
@@ -713,7 +713,7 @@ const PersnolInfoForm = ({
               id="emp_status"
               value={
                 !!formik.values.emp_status
-                  ? empStatusData?.tableData?.find((eachEmpStat) => eachEmpStat.empstatus_code === formik.values.emp_status)
+                  ? empStatusData?.tableData?.find((eachEmpStat: any) => eachEmpStat.empstatus_code === formik.values.emp_status)
                   : ({ empstatus_name: '' } as TEmpStatusHr)
               }
               onChange={(event, value: TEmpStatusHr | null) => {
@@ -749,7 +749,7 @@ const PersnolInfoForm = ({
               id="country"
               value={
                 !!formik.values.country_code
-                  ? countryData?.tableData.find((eachCountry) => eachCountry.country_code === formik.values.country_code)
+                  ? countryData?.tableData.find((eachCountry: any) => eachCountry.country_code === formik.values.country_code)
                   : ({ country_name: '' } as TCountry)
               }
               onChange={(event, value: TCountry | null) => {
@@ -802,3 +802,8 @@ const PersnolInfoForm = ({
 };
 
 export default PersnolInfoForm;
+
+
+
+
+

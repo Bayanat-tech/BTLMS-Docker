@@ -1,10 +1,15 @@
 import { SortingState } from '@tanstack/react-table';
 import { ISearch } from 'components/filters/SearchFilter';
 import { Dayjs } from 'dayjs';
-import { TTreeItem } from 'pages/Finance/AcTreeFinancePage';
 import { dispatch } from 'store';
 import { openSnackbar } from 'store/reducers/snackbar';
 import { AuthProps } from 'types/auth';
+
+type TTreeItem = {
+  id: string;
+  label: string;
+  children: TTreeItem[];
+};
 
 export const isUserAuthorized = (
   pathName: string[],

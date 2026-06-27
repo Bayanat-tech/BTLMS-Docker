@@ -12,7 +12,7 @@ import { FC } from 'react';
 import HrServiceInstance from 'service/Service.hr';
 import MyAgGrid from 'components/grid/MyAgGrid';
 import { ColDef } from 'ag-grid-community';
-import { TLeaveApproval } from 'pages/Purchasefolder/type/leave-approval-types';
+import { TLeaveApproval } from 'pages/HR/type/leave-approval-types';
 import { DialogPop } from 'components/popup/DIalogPop';
 import LeaveResumptionForm from './LeaveResumptionForm';
 import { MoreOutlined } from '@ant-design/icons';
@@ -417,3 +417,4 @@ const ApproveLeaveResumption: FC<HRLInProgressProps> = ({}) => {
   );
 };
 export default ApproveLeaveResumption;
+

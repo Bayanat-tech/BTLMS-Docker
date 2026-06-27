@@ -10,9 +10,9 @@ import {
   TPayrollHr,
   TPersnolHr,
   TSponsorHr
-} from 'pages/WMS/types/employee-hr.types';
+} from 'pages/HR/type/employee-hr.types';
 import { useEffect, useState } from 'react';
-import employeeServiceInstance from 'service/GM/service.employee_hr';
+import employeeServiceInstance from 'service/HR/service.employee_hr';
 import { AirfareInfo } from './AirfareInfo';
 import { ContractInfo } from './ContractInfo';
 import { IdCardInfo } from './IdCardInfo';
@@ -405,3 +405,5 @@ const AddEmployeeHrForm = ({
 };
 
 export default AddEmployeeHrForm;
+
+

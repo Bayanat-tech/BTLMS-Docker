@@ -11,7 +11,7 @@ import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import BTHrServiceInstance from '../service/Services.Inhr';
 import MyAgGrid from 'components/grid/MyAgGrid';
 import { ColDef } from 'ag-grid-community';
-import { TLeaveApproval } from 'pages/Purchasefolder/type/leave-approval-types';
+import { TLeaveApproval } from 'pages/HR/type/leave-approval-types';
 import AddLeaveApprovalForm from 'pages/HR/HRFlow/AddLeaveApprovalForm';
 import { DialogPop } from 'components/popup/DIalogPop';
 import { MoreOutlined } from '@ant-design/icons';
@@ -439,3 +439,4 @@ const BTHRLInProgress: FC<HRLInProgressProps> = ({}) => {
   );
 };
 export default BTHRLInProgress;
+

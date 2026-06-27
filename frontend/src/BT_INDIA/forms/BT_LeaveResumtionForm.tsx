@@ -22,7 +22,7 @@ import {
 } from '@mui/material';
 import CustomAlert from 'components/@extended/CustomAlert';
 import { showAlert } from 'store/CustomAlert/alertSlice';
-import { TLeaveApproval } from 'pages/Purchasefolder/type/leave-approval-types';
+import { TLeaveApproval } from 'pages/HR/type/leave-approval-types';
 import { IoSendSharp, IoPrintSharp } from 'react-icons/io5';
 import { MdCancelScheduleSend } from 'react-icons/md';
 import BTHrServiceInstance from '../service/Services.Inhr';
@@ -31,10 +31,10 @@ import { useDispatch } from 'store';
 import { useQuery } from '@tanstack/react-query';
 import WmsReportView from 'components/reports/WmsReportView';
 import UniversalDialog from 'components/popup/UniversalDialog';
-import WmsSerivceInstance from 'service/wms/service.wms';
+import WmsSerivceInstance from 'service/MasterService';
 import { FaFileExport, FaSave } from 'react-icons/fa';
 import { DialogPop } from 'components/popup/DIalogPop';
-import { SentBackPopup } from 'pages/Purchasefolder/MyTaskPendingRequestTab';
+import { SentBackPopup } from 'pages/HR/HRFlow/SentBackPopup';
 import BTHrRequestServiceInstance, { IHrEmployee, IValidateLeaveResponse } from '../service/services.BTHR';
 import * as XLSX from 'xlsx';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
@@ -1359,7 +1359,7 @@ const BTLeaveResumptionForm: React.FC<AddLeaveApprovalFormProps> = ({
             <div className="p-4 text-red-500">Failed to load reports. Please try again.</div>
           ) : (
             <List>
-              {reportData?.map((report) => (
+              {reportData?.map((report: { reportid: string; reportname: string }) => (
                 <ListItem disablePadding key={report.reportid}>
                   <ListItemButton onClick={() => togglePreviewPopup(report)}>
                     <ListItemText
@@ -1410,3 +1410,7 @@ const BTLeaveResumptionForm: React.FC<AddLeaveApprovalFormProps> = ({
 };
 
 export default BTLeaveResumptionForm;
+
+
+
+

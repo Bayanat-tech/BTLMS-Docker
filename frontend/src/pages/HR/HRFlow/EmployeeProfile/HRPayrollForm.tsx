@@ -3,7 +3,7 @@ import { Grid, InputLabel, TextField } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { TEMPLOYEES } from 'pages/WMS/types/employee-hr.types';
+import { TEMPLOYEES } from 'pages/HR/type/employee-hr.types';
 import { FormattedMessage } from 'react-intl';
 import dayjs from 'dayjs';
 
@@ -216,3 +216,4 @@ export const HRPayrollForm: React.FC<HRPayrollFormProps> = ({ initialData, isEdi
     </Grid>
   );
 };
+

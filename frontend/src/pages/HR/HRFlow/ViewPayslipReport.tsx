@@ -110,7 +110,7 @@ const isAllowedYear = year === currentYear.toString() || year === previousYear.t
     console.log(' Requested employee:', employeeId);
     console.log(' Supervisor data loaded:', !isLoadingSupervisor);
     console.log(' Team members count:', currentSupervisorEmployeeData?.length || 0);
-    console.log(' Team member IDs:', currentSupervisorEmployeeData?.map(e => e.EMPLOYEE_ID));
+    console.log(' Team member IDs:', currentSupervisorEmployeeData?.map((e: IHrEmployee) => e.EMPLOYEE_ID));
 
     // User can always view their own payslip
     if (user?.loginid1 === employeeId) {
@@ -120,7 +120,7 @@ const isAllowedYear = year === currentYear.toString() || year === previousYear.t
     
     // Supervisor can view payslips of employees under them
     if (!isLoadingSupervisor && currentSupervisorEmployeeData && currentSupervisorEmployeeData.length > 0) {
-      const isTeamMember = currentSupervisorEmployeeData.some(emp => {
+      const isTeamMember = currentSupervisorEmployeeData.some((emp: IHrEmployee) => {
         const isMatch = emp.EMPLOYEE_ID === employeeId;
         console.log(` Checking ${emp.EMPLOYEE_ID} === ${employeeId}: ${isMatch}`);
         return isMatch;
@@ -231,7 +231,7 @@ const isAllowedYear = year === currentYear.toString() || year === previousYear.t
             Requested Employee: {employeeId}<br />
             Is Supervisor: {currentSupervisorEmployeeData && currentSupervisorEmployeeData.length > 0 ? 'Yes' : 'No'}<br />
             Team Members: {currentSupervisorEmployeeData?.length || 0}<br />
-            Team IDs: {currentSupervisorEmployeeData?.map(e => e.EMPLOYEE_ID).join(', ') || 'None'}
+            Team IDs: {currentSupervisorEmployeeData?.map((e: IHrEmployee) => e.EMPLOYEE_ID).join(', ') || 'None'}
           </Typography>
         </Box>
 
@@ -716,3 +716,4 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
 };
 
 export default ViewPayslipReport;
+

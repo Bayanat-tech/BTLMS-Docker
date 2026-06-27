@@ -4,7 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useEffect, useState } from 'react';
-import { TILPHr } from 'pages/WMS/types/employee-hr.types';
+import { TILPHr } from 'pages/HR/type/employee-hr.types';
 import { getIn, useFormik } from 'formik';
 import dayjs, { Dayjs } from 'dayjs';
 import * as yup from 'yup';
@@ -211,3 +211,4 @@ export const IdCardInfo = ({
     </Grid>
   );
 };
+

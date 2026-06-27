@@ -3,7 +3,7 @@ import { Button, FormHelperText, Grid, InputLabel, MenuItem, Select } from '@mui
 import TextField from '@mui/material/TextField';
 import { getIn, useFormik } from 'formik';
 import useAuth from 'hooks/useAuth';
-//import { TCountry } from 'pages/WMS/types/country-wms.types';
+//import { TCountry } from 'pages/HR/type/employee-hr.types';
 import { TFormalDesignation } from 'pages/HR/type/formaldesignation-hr.types';
 import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
@@ -176,3 +176,4 @@ const AddFormaldesignationHrForm = ({
   );
 };
 export default AddFormaldesignationHrForm;
+

@@ -2,7 +2,7 @@
 import axiosServices from 'utils/axios';
 import { openSnackbar } from 'store/reducers/snackbar';
 import { Dispatch } from 'redux';
-import { TLeaveApproval } from 'pages/Purchasefolder/type/leave-approval-types';
+import { TLeaveApproval } from 'pages/HR/type/leave-approval-types';
 
 export interface IApiResponse<T = any> {
   success: boolean;
@@ -49,3 +49,4 @@ class HRService {
 
 const hrapprovalInstance = new HRService();
 export default hrapprovalInstance;
+

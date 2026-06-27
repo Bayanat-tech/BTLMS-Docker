@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import { ISearch } from 'components/filters/SearchFilter';
 import { rowsPerPageOptions } from 'components/tables/CustomDataTables';
 import useAuth from 'hooks/useAuth';
-import { TEMPLOYEES } from 'pages/WMS/types/employee-hr.types';
+import { TEMPLOYEES } from 'pages/HR/type/employee-hr.types';
 import { getPathNameList } from 'utils/functions';
 import { filter } from 'utils/constants';
 import HrRequestServiceInstance from 'service/services.hr';
@@ -359,3 +359,4 @@ const HREmployeeProfileMainPage = () => {
 };
 
 export default HREmployeeProfileMainPage;
+

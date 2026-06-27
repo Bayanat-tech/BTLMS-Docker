@@ -5,7 +5,7 @@ import { Typography, IconButton, Menu, MenuItem, Snackbar, Alert } from '@mui/ma
 import HrServiceInstance from 'service/Service.hr';
 import MyAgGrid from 'components/grid/MyAgGrid';
 import { ColDef } from 'ag-grid-community';
-import { TLeaveApproval } from 'pages/Purchasefolder/type/leave-approval-types';
+import { TLeaveApproval } from 'pages/HR/type/leave-approval-types';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import { ISearch } from 'components/filters/SearchFilter';
 import LeaveResumptionForm from './LeaveResumptionForm';
@@ -435,3 +435,4 @@ LAST_ACTION = 'SAVEASDRAFT' AND CREATED_BY = '${user?.loginid1}')
 };
 
 export default LeaveResumptionApprovalPage;
+

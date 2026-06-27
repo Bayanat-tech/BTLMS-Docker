@@ -1,30 +1,10 @@
 import * as express from "express";
 import multer from "multer";
 import passport from "passport";
-import {
-  deleteFiles,
-  editFiles,
-  editPFFiles,
-  getFiles,
-  getpfFiles,
-  deleteFilesPF,
-  getHrVendorFiles,
-  editHrVendorFiles,
-  deleteHrVendorFiles,
-  getEmployeeFiles,
-  editEmployeeFiles,
-  deleteEmployeeFiles,
-  getFilesBySrNo,
-  getAllVendorFiles,
-} from "../controllers/files.controller";
-import { checkUserAuthorization } from "../middleware/checkUserAthorization";
-import {
-  uploadToS3,
-  uploadPFToS3,
-  uploadVendorAttachmentToS3,
-  uploadEmployeeAttachmentToS3,
-} from "../services/ociUpload.service";
+import { deleteEmployeeFiles, editEmployeeFiles, getEmployeeFiles } from "../controllers/files.controller";
 import { BTdeleteEmployeeFiles, BTeditEmployeeFiles, BTgetEmployeeFiles } from "../BT_INDIA/controllers/Btfiles.controller";
+import { checkUserAuthorization } from "../middleware/checkUserAthorization";
+import { uploadEmployeeAttachmentToS3 } from "../services/ociUpload.service";
 
 const router = express.Router();
 const upload = multer({
@@ -33,74 +13,12 @@ const upload = multer({
     next(null, true);
   },
 });
-//------------import/export------
 
-//----------file----------
-router.get(
-  "/:request_number",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  getFiles
-);
-
-//----------PFfile----------
-router.get(
-  "/purchaseRequest/:request_number",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  getpfFiles
-);
-
-//------Vendor files----------
-router.get(
-  "/vendor/:request_number",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  getHrVendorFiles
-);
-
-//------Employee files----------
 router.get(
   "/employees/:request_number",
   passport.authenticate("jwt", { session: false }),
   checkUserAuthorization,
-  getEmployeeFiles 
-);
-
-
-router.put(
-  "/editFiles",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  editFiles
-);
-
-router.put(
-  "/editPFFile",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  editPFFiles
-);
-
-router.put(
-  "/editVendorFile",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  editHrVendorFiles
-);
-
-router.get(
-  "/getFilesBySrNo/:request_number/:sr_no",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  getFilesBySrNo
-);
-
-router.get(
-  "/getAllVendorFiles/:request_number",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  getAllVendorFiles
+  getEmployeeFiles
 );
 
 router.put(
@@ -108,31 +26,6 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   checkUserAuthorization,
   editEmployeeFiles
-);
-
-
-router.post(
-  "/upload",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  upload.single("file"),
-  uploadToS3
-);
-
-router.post(
-  "/uploadFilePf",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  upload.single("file"),
-  uploadPFToS3
-);
-
-router.post(
-  "/uploadVendorAttachment",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  upload.single("file"),
-  uploadVendorAttachmentToS3
 );
 
 router.post(
@@ -144,40 +37,17 @@ router.post(
 );
 
 router.delete(
-  "/delete",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  deleteFiles
-);
-
-router.delete(
-  "/deletePF/:request_number/:sr_no",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  deleteFilesPF
-);
-
-router.delete(
-  "/deleteVendorAttachment/:request_number/:sr_no/:attachment_sr_no?",
-  passport.authenticate("jwt", { session: false }),
-  checkUserAuthorization,
-  deleteHrVendorFiles
-);
-
-router.delete(
   "/deleteEmployeeFiles/:request_number(.+)/:sr_no",
   passport.authenticate("jwt", { session: false }),
   checkUserAuthorization,
   deleteEmployeeFiles
 );
 
-// BT employee files route
-
 router.get(
   "/BTemployees/:request_number",
   passport.authenticate("jwt", { session: false }),
   checkUserAuthorization,
-  BTgetEmployeeFiles 
+  BTgetEmployeeFiles
 );
 
 router.put(

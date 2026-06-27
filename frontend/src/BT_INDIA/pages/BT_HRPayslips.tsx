@@ -135,7 +135,7 @@ export default function HRPayslips() {
       if (isSupervisor) {
         // User is supervisor - include self + team members (remove duplicates)
         const otherEmployees = currentSupervisorEmployeeData.filter(
-          emp => emp.EMPLOYEE_ID !== user.loginid1
+          (emp: IHrEmployee) => emp.EMPLOYEE_ID !== user.loginid1
         );
         const combinedEmployees = [currentUserEmployee, ...otherEmployees];
         console.log('👥 Combined employees list (no duplicates):', combinedEmployees);
@@ -346,3 +346,4 @@ export default function HRPayslips() {
     </div>
   );
 }
+

@@ -5,8 +5,8 @@ import { ISearch } from 'components/filters/SearchFilter';
 import UniversalDialog from 'components/popup/UniversalDialog';
 import CustomDataTable, { rowsPerPageOptions } from 'components/tables/CustomDataTables';
 import useAuth from 'hooks/useAuth';
-import { TDepartment } from 'pages/WMS/types/department-wms.types';
-import { TDivision, TEmployeeHr, TSectionHr, TTableEmployeeHr } from 'pages/WMS/types/employee-hr.types';
+import { TDepartment } from 'pages/HR/type/department-hr.types';
+import { TDivision, TEmployeeHr, TSectionHr, TTableEmployeeHr } from 'pages/HR/type/employee-hr.types';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useSelector } from 'store';
@@ -16,7 +16,7 @@ import { filter } from 'utils/constants';
 import { getPathNameList, handleChangePagination, handleSortingChange } from 'utils/functions';
 import AddEmployeeHrForm from 'components/forms/HR/Masters/Employee/AddEmployeeHrForm';
 import dayjs from 'dayjs';
-import employeeServiceInstance from 'service/GM/service.employee_hr';
+import employeeServiceInstance from 'service/HR/service.employee_hr';
 import HrServiceInstance from 'service/Service.hr';
 import { Button } from '@mui/material';
 import { PlusOutlined } from '@ant-design/icons';
@@ -270,3 +270,6 @@ const EmployeeHrPage = () => {
 };
 
 export default EmployeeHrPage;
+
+
+

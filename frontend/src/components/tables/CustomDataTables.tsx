@@ -22,7 +22,6 @@ import {
   useTheme
 } from '@mui/material';
 import {
-  ColumnDef,
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
@@ -42,7 +41,6 @@ import { TableActionButtons } from 'types/common.types';
 import { TUniversalDialogProps } from 'types/types.UniversalDialog';
 import FilterCustomDataTable from './FilterCustomDataTable';
 import { IReactTable } from './interfaces/tableInterface';
-import ReactSubTable from './ReactSubTable';
 
 //------interface---
 // Define the type for the expanded state
@@ -61,11 +59,7 @@ const CustomDataTable = (props: IReactTable) => {
     enableMultiRowSelection = true, // Enable multi-row selection by default
     customFilter = <></>, // Custom filter component
     //----pagination----
-    subRowCustomData = {}, // Custom data for sub-rows
     hasPagination = true, // Enable pagination by default
-    hasSubRowPagination = false, // Disable sub-row pagination by default
-    subRowFilter = {} as ISearch, // Filter for sub-rows
-    subRowsActionbuttons = [], // Action buttons for sub-rows
     onPaginationChange = () => {}, // Function to handle pagination change
     //----delete----
     row_id, // Row ID
@@ -75,7 +69,6 @@ const CustomDataTable = (props: IReactTable) => {
     tableActions, // Table action buttons
     handleImportData, // Function to handle data import
     handleExportData, // Function to handle data export
-    handleExportSubRow = () => {}, // Function to handle sub-row data export
     //----sorting and filter----
     handleFilterChange, // Function to handle filter change
     handleSortingChange, // Function to handle sorting change
@@ -405,26 +398,16 @@ const CustomDataTable = (props: IReactTable) => {
                             );
                           })}
                         </TableRow>
-                        {row.getIsExpanded() && (
+                        {row.getIsExpanded() && subColumns?.length ? (
                           <TableRow
                             sx={{ bgcolor: backColor, '&:hover': { bgcolor: `${backColor} !important` } }}
                             key={rowIndex.toString() + row.id.toString()}
                           >
                             <TableCell sx={{ py: 0 }} colSpan={12}>
-                              <Collapse in={row.getIsExpanded()} timeout="auto" unmountOnExit>
-                                <ReactSubTable
-                                  handleExportData={handleExportSubRow}
-                                  customData={subRowCustomData}
-                                  columns={subColumns as ColumnDef<any>[]}
-                                  row={row}
-                                  hasPagination={hasSubRowPagination}
-                                  filter={subRowFilter}
-                                  tableActions={subRowsActionbuttons}
-                                />
-                              </Collapse>
+                              <Collapse in={row.getIsExpanded()} timeout="auto" unmountOnExit />
                             </TableCell>
                           </TableRow>
-                        )}
+                        ) : null}
                       </>
                     );
                   })}

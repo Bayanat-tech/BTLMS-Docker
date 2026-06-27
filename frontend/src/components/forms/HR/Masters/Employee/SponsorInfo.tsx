@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TSponsorData, TSponsorHr } from 'pages/WMS/types/employee-hr.types';
+import { TSponsorData, TSponsorHr } from 'pages/HR/type/employee-hr.types';
 import { getIn, useFormik } from 'formik';
 import dayjs, { Dayjs } from 'dayjs';
 import * as yup from 'yup';
@@ -102,7 +102,7 @@ export const SponsorInfo = ({
             id="sponsorName"
             value={
               !!formik.values.sponsor_id
-                ? sponsorData?.tableData.find((eachSponsor) => eachSponsor.sponsor_code === formik.values.sponsor_id)
+                ? sponsorData?.tableData.find((eachSponsor: any) => eachSponsor.sponsor_code === formik.values.sponsor_id)
                 : ({ sponsor_name: '' } as TSponsorData)
             }
             onChange={(event, value: TSponsorData | null) => {
@@ -232,3 +232,5 @@ export const SponsorInfo = ({
     </Grid>
   );
 };
+
+

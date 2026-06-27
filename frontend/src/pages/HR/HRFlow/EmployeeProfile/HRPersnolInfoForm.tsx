@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Grid, Avatar, IconButton, InputLabel, Stack, Typography } from '@mui/material';
-import { TEMPLOYEES } from 'pages/WMS/types/employee-hr.types';
+import { TEMPLOYEES } from 'pages/HR/type/employee-hr.types';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'; // corrected to use MUI DatePicker
@@ -341,3 +341,4 @@ const intl = useIntl();
 };
 
 export default HRPersonalInfoForm;
+

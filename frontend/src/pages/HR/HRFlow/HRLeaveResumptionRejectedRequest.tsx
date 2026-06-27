@@ -15,7 +15,7 @@ import HrServiceInstance from 'service/Service.hr';
 import MyAgGrid from 'components/grid/MyAgGrid';
 import { ColDef } from 'ag-grid-community';
 //import { PlusOutlined } from '@ant-design/icons';
-import { TLeaveApproval } from 'pages/Purchasefolder/type/leave-approval-types';
+import { TLeaveApproval } from 'pages/HR/type/leave-approval-types';
 //import AddLeaveApprovalForm from 'pages/HR/HRFlow/AddLeaveApprovalForm';
 import { DialogPop } from 'components/popup/DIalogPop';
 import LeaveResumptionForm from './LeaveResumptionForm';
@@ -430,3 +430,4 @@ const HRLeaveResumptionRejectedRequest: FC<HRLRejectedRequestProps> = ({ }) => {
   );
 };
 export default HRLeaveResumptionRejectedRequest;
+

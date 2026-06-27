@@ -5,12 +5,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useQuery } from '@tanstack/react-query';
 import dayjs, { Dayjs } from 'dayjs';
 import { getIn, useFormik } from 'formik';
-import { TCurrency } from 'pages/WMS/types/currency-wms.types';
-import { TBankHr, TPayrollHr } from 'pages/WMS/types/employee-hr.types';
+import { TCurrency } from 'pages/HR/type/employee-hr.types';
+import { TBankHr, TPayrollHr } from 'pages/HR/type/employee-hr.types';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import HrServiceInstance from 'service/Service.hr';
-import WmsSerivceInstance from 'service/wms/service.wms';
+import WmsSerivceInstance from 'service/MasterService';
 import { useSelector } from 'store';
 import * as yup from 'yup';
 export const PayrollForm = ({
@@ -183,7 +183,7 @@ export const PayrollForm = ({
               id="category"
               value={
                 !!formik.values.company_bank_code
-                  ? bankData?.tableData.find((eachUoc) => eachUoc.bank_code === formik.values.company_bank_code)
+                  ? bankData?.tableData.find((eachUoc: any) => eachUoc.bank_code === formik.values.company_bank_code)
                   : ({ bank_name: '' } as TBankHr)
               }
               onChange={(event, value: TBankHr | null) => {
@@ -244,7 +244,7 @@ export const PayrollForm = ({
             id="employeeBank"
             value={
               !!formik.values.salary_bank_code
-                ? bankData?.tableData.find((eachUoc) => eachUoc.bank_code === formik.values.salary_bank_code)
+                ? bankData?.tableData.find((eachUoc: any) => eachUoc.bank_code === formik.values.salary_bank_code)
                 : ({ bank_name: '' } as TBankHr)
             }
             onChange={(event, value: TBankHr | null) => {
@@ -285,7 +285,7 @@ export const PayrollForm = ({
               id="currency"
               value={
                 !!formik.values.currency_id
-                  ? currencyData?.tableData.find((eachCurrency) => eachCurrency.curr_code === formik.values.currency_id)
+                  ? currencyData?.tableData.find((eachCurrency: any) => eachCurrency.curr_code === formik.values.currency_id)
                   : ({ curr_name: '' } as TCurrency)
               }
               onChange={(event, value: TCurrency | null) => {
@@ -349,3 +349,7 @@ export const PayrollForm = ({
     </Grid>
   );
 };
+
+
+
+

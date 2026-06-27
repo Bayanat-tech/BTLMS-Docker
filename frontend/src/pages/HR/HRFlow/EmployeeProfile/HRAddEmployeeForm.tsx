@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import HRPersnolInfoForm from './HRPersnolInfoForm';
-import { TEMPLOYEES } from 'pages/WMS/types/employee-hr.types';
+import { TEMPLOYEES } from 'pages/HR/type/employee-hr.types';
 import { HRPayrollForm } from './HRPayrollForm';
 import { HRPassportInfo } from './HRPassportInfo';
 import { HRContractInfo } from './HRContractInfo';
@@ -177,3 +177,4 @@ const HRAddEmployeeForm: React.FC<HRAddEmployeeFormProps> = ({ onClose, isEditMo
 };
 
 export default HRAddEmployeeForm;
+

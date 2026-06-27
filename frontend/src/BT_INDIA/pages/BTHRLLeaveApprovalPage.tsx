@@ -7,7 +7,7 @@ import MyAgGrid from 'components/grid/MyAgGrid';
 import { DialogPop } from 'components/popup/DIalogPop';
 import BTAddLeaveApprovalForm from '../forms/BTAddLeaveApprovalForm';
 import { ColDef } from 'ag-grid-community';
-import { TLeaveApproval } from 'pages/Purchasefolder/type/leave-approval-types';
+import { TLeaveApproval } from 'pages/HR/type/leave-approval-types';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import { ISearch } from 'components/filters/SearchFilter';
 import dayjs from 'dayjs';
@@ -438,3 +438,4 @@ const BTHRLLeaveApprovalPage = ({
 };
 
 export default BTHRLLeaveApprovalPage;
+

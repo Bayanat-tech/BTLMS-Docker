@@ -7,7 +7,7 @@ import MyAgGrid from 'components/grid/MyAgGrid';
 import { DialogPop } from 'components/popup/DIalogPop';
 import AddLeaveApprovalForm from 'pages/HR/HRFlow/AddLeaveApprovalForm';
 import { ColDef } from 'ag-grid-community';
-import { TLeaveApproval } from 'pages/Purchasefolder/type/leave-approval-types';
+import { TLeaveApproval } from 'pages/HR/type/leave-approval-types';
 import ActionButtonsGroup from 'components/buttons/ActionButtonsGroup';
 import { ISearch } from 'components/filters/SearchFilter';
 import dayjs from 'dayjs';
@@ -435,3 +435,4 @@ const HRLLeaveApprovalPageBySupervisor = ({
 };
 
 export default HRLLeaveApprovalPageBySupervisor;
+

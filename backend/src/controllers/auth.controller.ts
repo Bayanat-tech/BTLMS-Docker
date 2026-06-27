@@ -10,7 +10,6 @@ import { loginSchema } from "../validation/auth.validation";
 import { StructuredResult } from "../interfaces/auth.interface";
 import { RequestWithUser } from "../interfaces/common.interface";
 import { AuthService } from "../services/auth.service";
-import { VendorService } from "../services/vendor.service";
 import { permissionsListQuery, userPermissionQuery } from "../utils/query";
 
 export const login = async (req: Request, res: Response) => {
@@ -27,55 +26,6 @@ export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     let user = await AuthService.findUserByEmailOrLoginId(email);
-
-    if (!user) {
-      try {
-        const apiResponse = await VendorService.checkAccountEmployee(email);
-
-        if (Array.isArray(apiResponse) && apiResponse.length > 0) {
-          const apiUser = apiResponse[0];
-          console.log("API User Data:", apiUser);
-
-          const isExternalPassValid = password === apiUser.PASSWORD;
-
-          if (!isExternalPassValid) {
-            res.status(constants.STATUS_CODES.BAD_REQUEST).json({
-              success: false,
-              message: constants.MESSAGES.USER.INVALID_PASSWORD,
-            });
-            return;
-          }
-
-          const hashedPassword = await AuthService.hashPassword(password);
-          user = await AuthService.createUserFromExternal(
-            apiUser,
-            password,
-            hashedPassword
-          );
-        } else {
-          res.status(constants.STATUS_CODES.NOT_FOUND).json({
-            success: false,
-            message: "User not found in external system",
-          });
-          return;
-        }
-      } catch (apiError: any) {
-        if (apiError.response?.status === 401) {
-          res.status(constants.STATUS_CODES.UNAUTHORIZED).json({
-            success: false,
-            message:
-              "Unauthorized access to external system. Please check API credentials.",
-          });
-        } else {
-          res.status(constants.STATUS_CODES.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            message: "Error validating user with external system",
-            error: apiError.message,
-          });
-        }
-        return;
-      }
-    }
 
     if (!user) {
       res.status(constants.STATUS_CODES.NOT_FOUND).json({

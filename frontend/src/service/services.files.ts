@@ -561,7 +561,7 @@ class FileUploadService {
 
       if (response.status === 200) {
         const blob = new Blob([response.data], {
-          type: response.headers['content-type']
+          type: String(response.headers['content-type'] || 'application/octet-stream')
         });
 
         const url = window.URL.createObjectURL(blob);
@@ -704,7 +704,7 @@ class FileUploadService {
       if (response.status === 200) {
         // Create blob from response
         const blob = new Blob([response.data], {
-          type: response.headers['content-type']
+          type: String(response.headers['content-type'] || 'application/octet-stream')
         });
 
         // Create download link
@@ -1000,3 +1000,4 @@ class FileUploadService {
 
 const FileUploadServiceInstance = new FileUploadService();
 export default FileUploadServiceInstance;
+

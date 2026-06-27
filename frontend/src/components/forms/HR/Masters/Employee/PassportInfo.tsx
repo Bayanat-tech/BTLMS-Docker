@@ -6,12 +6,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { useEffect, useState } from 'react';
 import { Button } from '@mui/material';
-import { TPassportHr } from 'pages/WMS/types/employee-hr.types';
+import { TPassportHr } from 'pages/HR/type/employee-hr.types';
 import { useFormik } from 'formik';
 import dayjs, { Dayjs } from 'dayjs';
-import WmsSerivceInstance from 'service/wms/service.wms';
+import WmsSerivceInstance from 'service/MasterService';
 import { useQuery } from '@tanstack/react-query';
-import { TCountry } from 'pages/WMS/types/country-wms.types';
+import { TCountry } from 'pages/HR/type/employee-hr.types';
 export const PassportInfo = ({
   handleNext,
   handleBack,
@@ -120,7 +120,7 @@ export const PassportInfo = ({
             id="issuedCountry"
             value={
               !!formik.values.ppt_country
-                ? countryData?.tableData.find((eachCountry) => eachCountry.country_code === formik.values.ppt_country)
+                ? countryData?.tableData.find((eachCountry: any) => eachCountry.country_code === formik.values.ppt_country)
                 : ({ country_name: '' } as TCountry)
             }
             onChange={(event, value: TCountry | null) => {
@@ -250,3 +250,7 @@ export const PassportInfo = ({
     </Grid>
   );
 };
+
+
+
+
