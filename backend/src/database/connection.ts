@@ -46,12 +46,12 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   logging: true,
   entities: [
-    "src/entity/**/*.js",
-    "src/entities/**/*.js",
-    "src/BT_INDIA/entities/*.js"
+    "src/entity/**/*.ts",
+    "src/entities/**/*.ts",
+    "src/BT_INDIA/entities/*.ts"
   ],
-  migrations: ["src/migration/**/*.js"],
-  subscribers: ["src/subscriber/**/*.js"],
+  migrations: ["src/migration/**/*.ts"],
+  subscribers: ["src/subscriber/**/*.ts"],
   extra: {
     poolMin: 5,
     poolMax: 50,
