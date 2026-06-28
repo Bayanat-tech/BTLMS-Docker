@@ -10,12 +10,17 @@ services:
       - ./backend/.env
 
     ports:
-      - "3500:5000"
+      - "3501:3500"
 
   frontend:
     build:
       context: ./frontend
       dockerfile: dockerfile
+      args:
+        REACT_APP_VERSION: ${REACT_APP_VERSION:-v2.1.0}
+        REACT_APP_BASE_URL: ${REACT_APP_BASE_URL:-/}
+        REACT_APP_API_URL: ${REACT_APP_API_URL:-/}
+        GENERATE_SOURCEMAP: ${GENERATE_SOURCEMAP:-false}
 
     image: btlms-frontend:${BTLMS_IMAGE_TAG:-latest}
     restart: unless-stopped
