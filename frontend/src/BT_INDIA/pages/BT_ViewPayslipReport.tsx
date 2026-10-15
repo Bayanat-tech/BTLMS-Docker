@@ -14,8 +14,7 @@ import {
 import { Print, PictureAsPdf } from '@mui/icons-material';
 import HrServiceInstance from 'service/Service.hr';
 import { convertToWords } from 'react-number-to-words';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { createPayslipPDF, COMPANY_ADDRESS } from '../../utils/payslipPdf';
 import React from 'react';
 import useAuth from 'hooks/useAuth';
 
@@ -294,9 +293,9 @@ const isAllowedYear = year === currentYear.toString() || year === previousYear.t
   const deductions = deductionsData || [];
 
   // Calculate totals
-  const grossEarnings = header.GROSS_EARNINGS || earnings.reduce((sum: number, item: any) => sum + (item.PAY_COMP_AMT || 0), 0);
-  const grossDeductions = header.GROSS_DEDUCTIONS || deductions.reduce((sum: number, item: any) => sum + (item.PAY_COMP_AMT || 0), 0);
-  const netSalary = header.NET_SALARY || (grossEarnings - grossDeductions);
+  const grossEarnings = Number(header.GROSS_EARNINGS ?? earnings.reduce((sum: number, item: any) => sum + Number(item.PAY_COMP_AMT || 0), 0));
+  const grossDeductions = Number(header.GROSS_DEDUCTIONS ?? deductions.reduce((sum: number, item: any) => sum + Number(item.PAY_COMP_AMT || 0), 0));
+  const netSalary = Number(header.NET_SALARY ?? (grossEarnings - grossDeductions));
 
 // Function to convert amount to words with dynamic currency
 const convertAmountToWords = (amount: number, currency: string = 'RIALS'): string => {
@@ -378,64 +377,7 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
     }
 
     try {
-      // Create a clone of the element to modify for PDF without affecting the UI
-      const clone = element.cloneNode(true) as HTMLElement;
-      
-      // Remove only the back button from the clone, keep the header
-      const backButton = clone.querySelector('.no-print');
-      if (backButton) {
-        backButton.remove();
-      }
-      
-      // Smaller font size increase for PDF 
-      const allElements = clone.querySelectorAll('*');
-      allElements.forEach((el: any) => {
-        if (el.style) {
-          const computedStyle = window.getComputedStyle(el);
-          const currentFontSize = computedStyle.fontSize;
-          const currentSize = parseFloat(currentFontSize);
-          
-          if (!isNaN(currentSize)) {
-            // 10% font size increase for PDF
-            let newSize = currentSize * 1.1;
-            
-            // Apply different scaling for different element types
-            if (el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3' || el.tagName === 'H4' || el.tagName === 'H5' || el.tagName === 'H6') {
-              newSize = currentSize * 1.15; // headings
-            }
-            
-            el.style.fontSize = `${newSize}px`;
-            el.style.fontFamily = '"Segoe UI", Arial, sans-serif';
-          }
-        }
-      });
-
-      // Add the clone to the document temporarily (hidden)
-      clone.style.position = 'fixed';
-      clone.style.left = '-9999px';
-      clone.style.top = '0';
-      clone.style.width = '800px';
-      clone.style.backgroundColor = 'white';
-      document.body.appendChild(clone);
-
-      const canvas = await html2canvas(clone, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#ffffff',
-        width: clone.scrollWidth,
-        height: clone.scrollHeight,
-      });
-
-      // Remove the clone from document
-      document.body.removeChild(clone);
-
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 190;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      
-      pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+      const pdf = await createPayslipPDF({ header, earnings, deductions, grossEarnings, grossDeductions, netSalary, period: getMonthName(String(header.PAY_MONTH)) + ' ' + header.PAY_YEAR, words: convertAmountToWords(Number(netSalary), header.CURR_NAME), logoUrl: COMPANY_LOGO_URL });
       pdf.save(`Payslip_${employeeId}_${month}_${year}.pdf`);
     } catch (error) {
       console.error('Error generating PDF:', error);
@@ -449,7 +391,7 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
   };
 
   const formatCurrency = (amount: number): string => {
-    return amount?.toFixed(3) || '0.000';
+    return Number(amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
 
   const getMonthName = (monthNum: string) => {
@@ -493,13 +435,14 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
         sx={{
           boxSizing: 'border-box',
           maxWidth: 940,
-          minHeight: 720,
+          minHeight: 0,
           p: { xs: 2, sm: 4 },
           mx: 'auto',
           my: 2,
           color: '#171717',
           backgroundColor: '#fff',
           fontFamily: 'Arial, sans-serif',
+          '& *': { fontFamily: 'Arial, sans-serif' },
           '@media print': {
             width: '100%',
             maxWidth: 'none',
@@ -528,6 +471,7 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
           />
         </Box>
 
+        <Typography sx={{ fontSize: '0.75rem', textAlign: 'center', mt: 1 }}>{COMPANY_ADDRESS}</Typography>
         <Box
           sx={{
             display: 'flex',
@@ -619,7 +563,7 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
               >
                 {title}
               </Typography>
-              <Box sx={{ minHeight: { xs: 145, sm: 230 }, p: 1 }}>
+              <Box sx={{ minHeight: 120, p: 1 }}>
                 {items.length > 0 ? (
                   items.map((item: any, index: number) => (
                     <Box
@@ -693,6 +637,7 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
             {convertAmountToWords(netSalary, header.CURR_NAME)}
           </Typography>
         </Box>
+        <Typography sx={{ mt: 2, textAlign: 'center', fontSize: '0.75rem' }}>This is a system generated salary slip. No signature required.</Typography>
       </Paper>
     </Container>
   );
