@@ -83,12 +83,14 @@ export async function createPayslipPDF(data: PayslipData): Promise<jsPDF> {
     text('BAYANAT TECHNOLOGY PRIVATE LTD', 105, y, true, 14, 'center');
     y += 8;
   }
-  pdf.setFont('Payslip', 'normal');
+  pdf.setFont('Payslip', 'bold');
+  pdf.setTextColor(35, 65, 99);
   pdf.setFontSize(9);
   const address = pdf.splitTextToSize(COMPANY_ADDRESS, 175);
   pdf.text(address, 105, y, { align: 'center' });
   y += address.length * 4 + 5;
   text(`Salary Slip for ${data.period}`, 105, y, true, 12, 'center');
+  pdf.setTextColor(25, 33, 45);
   y += 5;
   pdf.line(left, y, right, y);
   y += 8;
@@ -133,6 +135,7 @@ export async function createPayslipPDF(data: PayslipData): Promise<jsPDF> {
     const dl = pdf.splitTextToSize(deduction?.PAY_COMP_DESC || (i === 0 && !data.deductions.length ? 'No deductions for this period' : ''), 62);
     const height = Math.max(el.length, dl.length, 1) * 4 + 2.5;
     if (y + height > 260) { pdf.addPage(); y = 20; tableHeader(); }
+    pdf.setFont('Payslip', 'normal');
     pdf.rect(left, y, right - left, height);
     [82, middle, 172].forEach(x => pdf.line(x, y, x, y + height));
     pdf.text(el, left + 2, y + 4.5);

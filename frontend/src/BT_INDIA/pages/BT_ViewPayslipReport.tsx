@@ -471,7 +471,7 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
           />
         </Box>
 
-        <Typography sx={{ fontSize: '0.75rem', textAlign: 'center', mt: 1 }}>{COMPANY_ADDRESS}</Typography>
+        <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: '#234163', textAlign: 'center', mt: 1 }}>{COMPANY_ADDRESS}</Typography>
         <Box
           sx={{
             display: 'flex',
@@ -485,7 +485,7 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
         >
           <Typography
             component="h1"
-            sx={{ fontSize: '1rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' }}
+            sx={{ fontSize: '1rem', fontWeight: 700, color: '#234163', letterSpacing: '0.16em', textTransform: 'uppercase' }}
           >
             Payslip
           </Typography>
