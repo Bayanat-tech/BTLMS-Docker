@@ -4,18 +4,10 @@ import {
   Container,
   Paper,
   Typography,
-  Grid,
   Box,
-  Card,
-  CardContent,
   CircularProgress,
   Alert,
   Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
   IconButton,
   Tooltip
 } from '@mui/material';
@@ -26,6 +18,9 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import React from 'react';
 import useAuth from 'hooks/useAuth';
+
+const COMPANY_LOGO_URL =
+  'https://axpnrpp1t5qs.compat.objectstorage.me-dubai-1.oraclecloud.com/app-dev-bucket-test/CompanyLogos/cf77c7ad-95de-4842-9fee-730ddbd06be7.png';
 
 // Interface for employee data
 interface IHrEmployee {
@@ -466,17 +461,20 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
   };
 
   return (
-    <Container maxWidth="lg">
-      {/* Print buttons - hidden during actual printing */}
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'flex-end', 
-        gap: 1, 
-        mb: 2,
+    <Container
+      maxWidth="lg"
+      sx={{
         '@media print': {
-          display: 'none'
+          maxWidth: 'none !important',
+          width: '100%',
+          p: '0 !important'
         }
-      }}>
+      }}
+    >
+      <Box
+        className="no-print"
+        sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mb: 1 }}
+      >
         <Tooltip title="Print">
           <IconButton onClick={handlePrint} color="primary">
             <Print />
@@ -489,231 +487,215 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
         </Tooltip>
       </Box>
 
-      <Paper 
+      <Paper
         id="payslip-content"
-        elevation={3} 
-        sx={{ 
-          p: 3, 
-          margin: '20px auto',
+        elevation={2}
+        sx={{
+          boxSizing: 'border-box',
+          maxWidth: 940,
+          minHeight: 720,
+          p: { xs: 2, sm: 4 },
+          mx: 'auto',
+          my: 2,
+          color: '#171717',
+          backgroundColor: '#fff',
+          fontFamily: 'Arial, sans-serif',
           '@media print': {
+            width: '100%',
+            maxWidth: 'none',
+            minHeight: 0,
             boxShadow: 'none',
-            margin: 0,
-            p: 2,
-            '& .no-print': {
-              display: 'none !important'
-            }
+            m: 0,
+            p: '0 !important',
+            '& .no-print': { display: 'none !important' }
           }
         }}
       >
-        {/* Header section - Properly centered */}
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
-          mb: 1,
-          borderBottom: '2px solid #1976d2',
-          pb: 1,
-        }}>
-          <Button 
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            minHeight: 52,
+            pb: 1,
+            borderBottom: '2px solid #171717'
+          }}
+        >
+          <Box
+            component="img"
+            src={COMPANY_LOGO_URL}
+            alt="Company logo"
+            sx={{ display: 'block', maxWidth: 230, width: 'auto', height: 44, objectFit: 'contain' }}
+          />
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 2,
+            py: 1.25,
+            mb: 1.5,
+            borderBottom: '1px solid #d3d7dc'
+          }}
+        >
+          <Typography
+            component="h1"
+            sx={{ fontSize: '1rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' }}
+          >
+            Payslip
+          </Typography>
+          <Typography sx={{ fontSize: '0.82rem', fontWeight: 600 }}>
+            Division: {header.DIV_NAME || '—'}
+          </Typography>
+          <Button
             className="no-print"
-            variant="outlined" 
+            variant="outlined"
+            size="small"
             onClick={() => navigate('/hr/Activity/Request/employee_payslip')}
-            sx={{ minWidth: '120px' }}
           >
             Back to Search
           </Button>
-          
-          {/* Centered header title */}
-          <Box sx={{ 
-            flex: 1, 
-            display: 'flex', 
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            <Typography 
-              variant="h5" 
-              component="h1" 
-              sx={{ 
-                fontSize: '1.5rem', 
-                fontWeight: 'bold',
-                color: '#1976d2',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                textAlign: 'center'
-              }}
+        </Box>
+
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+            columnGap: 5,
+            rowGap: 0.65,
+            mb: 2.5
+          }}
+        >
+          {[
+            ['Employee Code', header.EMPLOYEE_CODE || header.EMPLOYEE_ID],
+            ['Name', header.RPT_NAME],
+            ['Designation', header.DESG_NAME],
+            ['Division', header.DIV_NAME],
+            ['Department', header.DEPT_NAME],
+            ['Section', header.SECTION_NAME],
+            ['Period', `${getMonthName(String(header.PAY_MONTH))} / ${header.PAY_YEAR}`],
+            ['Currency', header.CURR_NAME],
+            ['Bank Name', header.SALARY_BANK_CODE || header.MAIN_BANK],
+            ['Account No.', header.SALARY_ACCT_NO],
+            ['Mode of Payment', header.PAYMENT_MODE]
+          ].map(([label, value]) => (
+            <Box
+              key={label}
+              sx={{ display: 'grid', gridTemplateColumns: 'minmax(105px, 0.75fr) 1.25fr', gap: 1, fontSize: '0.78rem' }}
             >
-              Employee Payslip
-            </Typography>
-          </Box>
-          
-          <Box sx={{ minWidth: '120px' }}></Box>
-        </Box>
-
-        {/* Employee Details - Split layout with left and right sections */}
-        <Box sx={{ mb: 2, lineHeight: 1.1 }}>
-          <Grid container spacing={1}>
-            {/* Left Column - Employee Information */}
-            <Grid item xs={12} md={7}>
-              {/* Employee ID and Name */}
-              <Typography 
-                variant="body2" 
-                sx={{ 
-                  fontSize: '0.85rem', 
-                  mb: 1, 
-                  fontWeight: 'bold'
-                }}
-              >
-                Employee: {header.EMPLOYEE_ID} - {header.RPT_NAME}
+              <Typography component="span" sx={{ fontSize: 'inherit', fontWeight: 700 }}>
+                {label}
               </Typography>
-              
-              {/* Employee Details */}
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.3 }}>
-                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                  <strong>Designation:</strong> {header.DESG_NAME}
-                </Typography>
-                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                  <strong>Division:</strong> {header.DIV_NAME}
-                </Typography>
-                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                  <strong>Department:</strong> {header.DEPT_NAME}
-                </Typography>
-                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                  <strong>Section:</strong> {header.SECTION_NAME}
-                </Typography>
-              </Box>
-            </Grid>
-            
-            {/* Right Column - Payment Information */}
-            <Grid item xs={12} md={5}>
-              <Box sx={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                gap: 0.3,
-                textAlign: 'right'
-              }}>
-                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                  <strong>Payment Mode:</strong> {header.PAYMENT_MODE} - {header.SALARY_ACCT_NO}
-                </Typography>
-                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                  <strong>Period:</strong> {getMonthName(header.PAY_MONTH)} / {header.PAY_YEAR}
-                </Typography>
-                <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>
-                  <strong>Currency:</strong> {header.CURR_NAME}
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-
-        {/* Earnings and Deductions Table */}
-        <TableContainer component={Paper} variant="outlined" sx={{ mb: 1 }}>
-          <Table>
-            <TableBody>
-              <TableRow>
-                {/* Earnings Column */}
-                <TableCell width="50%" sx={{ borderRight: '1px solid #e0e0e0', verticalAlign: 'top', py: 0.5 }}>
-                  <Typography variant="h6" gutterBottom color="primary" sx={{ fontSize: '1rem', mb: 0.5, fontWeight: 'bold' }}>
-                    Earnings
-                  </Typography>
-                  
-                  <Box sx={{ mb: 0.5 }}>
-                    <Typography variant="subtitle2" color="textSecondary" sx={{ fontStyle: 'italic', fontSize: '0.8rem' }}>
-                      CURRENT MONTH PAY:
-                    </Typography>
-                  </Box>
-                  
-                  {earnings.length > 0 ? (
-                    earnings.map((earning: any, index: number) => (
-                      <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', py: 0.1 }}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{earning.PAY_COMP_DESC}</Typography>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem', fontWeight: 'medium' }}>{formatCurrency(earning.PAY_COMP_AMT)}</Typography>
-                      </Box>
-                    ))
-                  ) : (
-                    <Typography variant="body2" color="textSecondary" sx={{ fontSize: '0.8rem' }}>No earnings data available</Typography>
-                  )}
-                </TableCell>
-                
-                {/* Deductions Column */}
-                <TableCell width="50%" sx={{ verticalAlign: 'top', py: 0.5 }}>
-                  <Typography variant="h6" gutterBottom color="primary" sx={{ fontSize: '1rem', mb: 0.5, fontWeight: 'bold' }}>
-                    Deductions
-                  </Typography>
-                  
-                  <Box sx={{ mb: 0.5 }}>
-                    <Typography variant="subtitle2" color="textSecondary" sx={{ fontStyle: 'italic', fontSize: '0.8rem' }}>
-                      &nbsp;
-                    </Typography>
-                  </Box>
-                  
-                  {deductions.length > 0 ? (
-                    deductions.map((deduction: any, index: number) => (
-                      <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', py: 0.1 }}>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem' }}>{deduction.PAY_COMP_DESC}</Typography>
-                        <Typography variant="body2" sx={{ fontSize: '0.8rem', fontWeight: 'medium' }}>{formatCurrency(deduction.PAY_COMP_AMT)}</Typography>
-                      </Box>
-                    ))
-                  ) : ( 
-                    <Typography variant="body2" color="textSecondary" sx={{ fontSize: '0.8rem' }}>No deductions data available</Typography>
-                  )}
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        {/* Summary */}
-        <Grid container spacing={0.5} sx={{ mb: 1 }}>
-          <Grid item xs={12} md={6}>
-            <Card variant="outlined" sx={{ minHeight: '45px', display: 'flex', alignItems: 'center' }}>
-              <CardContent sx={{ textAlign: 'center', py: 0.25, width: '100%' }}>
-                <Typography variant="subtitle1" gutterBottom sx={{ fontSize: '0.8rem', fontWeight: 'bold', mb: 0.25 }}>
-                  Gross Earnings
-                </Typography>
-                <Typography variant="h6" color="primary" sx={{ fontSize: '0.95rem', fontWeight: 'bold' }}>
-                  {formatCurrency(grossEarnings)}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Card variant="outlined" sx={{ minHeight: '45px', display: 'flex', alignItems: 'center' }}>
-              <CardContent sx={{ textAlign: 'center', py: 0.25, width: '100%' }}>
-                <Typography variant="subtitle1" gutterBottom sx={{ fontSize: '0.8rem', fontWeight: 'bold', mb: 0.25 }}>
-                  Gross Deductions
-                </Typography>
-                <Typography variant="h6" color="error" sx={{ fontSize: '0.95rem', fontWeight: 'bold' }}>
-                  {formatCurrency(grossDeductions)}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-
-        {/* Net Salary */}
-        <Card sx={{ backgroundColor: '#e8f5e8', border: '2px solid #4caf50' }}>
-          <CardContent sx={{ textAlign: 'center', py: 0.5 }}>
-            <Typography variant="h6" gutterBottom sx={{ fontSize: '1rem', fontWeight: 'bold', mb: 0.5 }}>
-              Net Salary: {formatCurrency(netSalary)}
-            </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.25 }}>
-              <Typography variant="body2" sx={{ 
-                fontStyle: 'italic', 
-                fontSize: '0.8rem',
-                textAlign: 'center',
-                color: '#49b436ff',
-                lineHeight: 1.1,
-                fontWeight: 'medium'
-              }}>
-              <strong>Amount : </strong>{convertAmountToWords(netSalary, header.CURR_NAME)} 
+              <Typography component="span" sx={{ fontSize: 'inherit', overflowWrap: 'anywhere' }}>
+                : {value || '—'}
               </Typography>
             </Box>
-          </CardContent>
-        </Card>
+          ))}
+        </Box>
+
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+            border: '1px solid #333',
+            '& > section:first-of-type': { borderRight: { xs: 0, sm: '1px solid #333' } }
+          }}
+        >
+          {[
+            { title: 'Earnings', items: earnings },
+            { title: 'Deductions', items: deductions }
+          ].map(({ title, items }) => (
+            <Box component="section" key={title} sx={{ minWidth: 0 }}>
+              <Typography
+                sx={{
+                  py: 0.7,
+                  px: 1,
+                  borderBottom: '1px solid #333',
+                  textAlign: 'center',
+                  fontSize: '0.82rem',
+                  fontWeight: 700
+                }}
+              >
+                {title}
+              </Typography>
+              <Box sx={{ minHeight: { xs: 145, sm: 230 }, p: 1 }}>
+                {items.length > 0 ? (
+                  items.map((item: any, index: number) => (
+                    <Box
+                      key={`${item.PAY_COMP_DESC}-${index}`}
+                      sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 0.35, fontSize: '0.76rem' }}
+                    >
+                      <Typography sx={{ fontSize: 'inherit' }}>{item.PAY_COMP_DESC}</Typography>
+                      <Typography sx={{ flexShrink: 0, fontSize: 'inherit', textAlign: 'right' }}>
+                        {formatCurrency(item.PAY_COMP_AMT)}
+                      </Typography>
+                    </Box>
+                  ))
+                ) : (
+                  <Typography sx={{ color: 'text.secondary', fontSize: '0.76rem' }}>
+                    No {title.toLowerCase()} for this period
+                  </Typography>
+                )}
+              </Box>
+            </Box>
+          ))}
+          <Box
+            sx={{
+              gridColumn: '1 / -1',
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+              borderTop: '1px solid #333'
+            }}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, p: 1, fontSize: '0.76rem', fontWeight: 700 }}>
+              <span>Gross Earnings</span>
+              <span>{formatCurrency(grossEarnings)}</span>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                gap: 1,
+                p: 1,
+                fontSize: '0.76rem',
+                fontWeight: 700,
+                borderLeft: { xs: 0, sm: '1px solid #333' },
+                borderTop: { xs: '1px solid #ddd', sm: 0 }
+              }}
+            >
+              <span>Gross Deductions</span>
+              <span>{formatCurrency(grossDeductions)}</span>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              gridColumn: '1 / -1',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: 1,
+              p: 1,
+              borderTop: '1px solid #333',
+              fontSize: '0.82rem',
+              fontWeight: 700
+            }}
+          >
+            <span>Total Paid Salary:</span>
+            <span>{header.CURR_NAME ? `${header.CURR_NAME} ` : ''}{formatCurrency(netSalary)}</span>
+          </Box>
+        </Box>
+
+        <Box sx={{ mt: 1.5, pt: 1, borderTop: '1px solid #d3d7dc' }}>
+          <Typography sx={{ fontSize: '0.78rem', fontWeight: 700, mb: 0.5 }}>
+            Net Salary in Words
+          </Typography>
+          <Typography sx={{ fontSize: '0.75rem', textTransform: 'capitalize' }}>
+            {convertAmountToWords(netSalary, header.CURR_NAME)}
+          </Typography>
+        </Box>
       </Paper>
     </Container>
   );
 };
 
 export default BT_ViewPayslipReport;
-
