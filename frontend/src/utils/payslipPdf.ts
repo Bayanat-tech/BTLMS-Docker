@@ -1,4 +1,26 @@
 import jsPDF from 'jspdf';
+import regularFont from '../fonts/segoeuithis.ttf';
+import boldFont from '../fonts/segoeuithibd.ttf';
+
+export const maskBankAccount = (value: unknown): string => {
+  const account = String(value ?? '').trim();
+  return account ? '*'.repeat(Math.max(account.length - 4, 0)) + (account.length > 4 ? account.slice(-4) : '*'.repeat(account.length)) : '-';
+};
+export const maskBank = (value: unknown): string => String(value ?? '').trim() ? '****' : '-';
+export const paymentModeLabel = (value: unknown): string => {
+  const mode = String(value ?? '').trim();
+  return ['B', 'BANK', 'BANK TRANSFER'].includes(mode.toUpperCase()) ? 'Bank Transfer' : mode || '-';
+};
+
+let fontData: Promise<string[]> | undefined;
+const loadFonts = () => fontData || (fontData = Promise.all([regularFont, boldFont].map(async url => {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error('Unable to load payslip font');
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  let binary = '';
+  bytes.forEach(byte => { binary += String.fromCharCode(byte); });
+  return btoa(binary);
+})).catch(error => { fontData = undefined; throw error; }));
 
 export const COMPANY_ADDRESS = '7 FLOOR UNIT 706 B WING, AMBIVALI, SAHAKAR NAGAR, Mumbai, Maharashtra, 400053-India.';
 
@@ -17,6 +39,12 @@ interface PayslipData {
 // Draw text directly into the PDF so it stays sharp at any print resolution.
 export async function createPayslipPDF(data: PayslipData): Promise<jsPDF> {
   const pdf = new jsPDF('p', 'mm', 'a4');
+  const fonts = await loadFonts();
+  pdf.addFileToVFS('Payslip-Regular.ttf', fonts[0]);
+  pdf.addFileToVFS('Payslip-Bold.ttf', fonts[1]);
+  pdf.addFont('Payslip-Regular.ttf', 'Payslip', 'normal');
+  pdf.addFont('Payslip-Bold.ttf', 'Payslip', 'bold');
+  pdf.setTextColor(25, 33, 45);
   const { header } = data;
   const left = 15, right = 195, middle = 105;
   let y = 19;
@@ -24,12 +52,12 @@ export async function createPayslipPDF(data: PayslipData): Promise<jsPDF> {
     minimumFractionDigits: 2, maximumFractionDigits: 2
   });
   const text = (value: unknown, x: number, top: number, bold = false, size = 9, align: 'left' | 'center' | 'right' = 'left') => {
-    pdf.setFont('helvetica', bold ? 'bold' : 'normal');
+    pdf.setFont('Payslip', bold ? 'bold' : 'normal');
     pdf.setFontSize(size);
     pdf.text(String(value ?? '-'), x, top, { align });
   };
   pdf.setProperties({ title: `Payslip - ${data.period}`, subject: 'Employee salary slip' });
-  pdf.setDrawColor(70);
+  pdf.setDrawColor(153, 164, 179);
   pdf.setLineWidth(0.2);
   if (data.logoUrl) {
     // A failed logo must not prevent access to the salary document.
@@ -55,7 +83,7 @@ export async function createPayslipPDF(data: PayslipData): Promise<jsPDF> {
     text('BAYANAT TECHNOLOGY PRIVATE LTD', 105, y, true, 14, 'center');
     y += 8;
   }
-  pdf.setFont('helvetica', 'normal');
+  pdf.setFont('Payslip', 'normal');
   pdf.setFontSize(9);
   const address = pdf.splitTextToSize(COMPANY_ADDRESS, 175);
   pdf.text(address, 105, y, { align: 'center' });
@@ -69,15 +97,15 @@ export async function createPayslipPDF(data: PayslipData): Promise<jsPDF> {
     ['Designation', header.DESG_NAME, 'Division', header.DIV_NAME],
     ['Department', header.DEPT_NAME, 'Section', header.SECTION_NAME],
     ['Period', data.period, 'Currency', header.CURR_NAME],
-    ['Bank Name', header.SALARY_BANK_CODE || header.MAIN_BANK, 'Account No.', header.SALARY_ACCT_NO],
-    ['Mode of Payment', header.PAYMENT_MODE, '', '']
+    ['Bank (masked)', maskBank(header.SALARY_BANK_CODE || header.MAIN_BANK), 'Account No.', maskBankAccount(header.SALARY_ACCT_NO)],
+    ['Mode of Payment', paymentModeLabel(header.PAYMENT_MODE), '', '']
   ];
   fields.forEach(row => {
     let height = 7;
     [left, middle + 3].forEach((x, index) => {
       if (!row[index * 2]) return;
       text(row[index * 2], x, y, true);
-      pdf.setFont('helvetica', 'normal');
+      pdf.setFont('Payslip', 'normal');
       const lines = pdf.splitTextToSize(String(row[index * 2 + 1] || '-'), 52);
       pdf.text(lines, x + 34, y);
       height = Math.max(height, lines.length * 4 + 3);
@@ -86,7 +114,8 @@ export async function createPayslipPDF(data: PayslipData): Promise<jsPDF> {
   });
   y += 2;
   const tableHeader = () => {
-    pdf.rect(left, y, right - left, 7);
+    pdf.setFillColor(233, 239, 248);
+    pdf.rect(left, y, right - left, 7, 'FD');
     pdf.line(middle, y, middle, y + 7);
     pdf.line(82, y, 82, y + 7);
     pdf.line(172, y, 172, y + 7);
@@ -99,7 +128,7 @@ export async function createPayslipPDF(data: PayslipData): Promise<jsPDF> {
   tableHeader();
   for (let i = 0; i < Math.max(data.earnings.length, data.deductions.length, 5); i++) {
     const earning = data.earnings[i], deduction = data.deductions[i];
-    pdf.setFont('helvetica', 'normal');
+    pdf.setFont('Payslip', 'normal');
     const el = pdf.splitTextToSize(earning?.PAY_COMP_DESC || '', 62);
     const dl = pdf.splitTextToSize(deduction?.PAY_COMP_DESC || (i === 0 && !data.deductions.length ? 'No deductions for this period' : ''), 62);
     const height = Math.max(el.length, dl.length, 1) * 4 + 2.5;
@@ -113,18 +142,20 @@ export async function createPayslipPDF(data: PayslipData): Promise<jsPDF> {
     y += height;
   }
   if (y + 8 > 270) { pdf.addPage(); y = 20; }
-  pdf.rect(left, y, right - left, 8);
+  pdf.setFillColor(244, 246, 249);
+  pdf.rect(left, y, right - left, 8, 'FD');
   pdf.line(middle, y, middle, y + 8);
   text('Total Earnings', left + 2, y + 5.2, true);
   text(money(data.grossEarnings), middle - 2, y + 5.2, true, 9, 'right');
   text('Total Deductions', middle + 2, y + 5.2, true);
   text(money(data.grossDeductions), right - 2, y + 5.2, true, 9, 'right');
   y += 8;
-  pdf.setFont('helvetica', 'bold');
+  pdf.setFont('Payslip', 'bold');
   const words = pdf.splitTextToSize(`In words: ${data.words}`, 174);
   const height = 14 + words.length * 4;
   if (y + height > 280) { pdf.addPage(); y = 20; }
-  pdf.rect(left, y, right - left, height);
+  pdf.setFillColor(233, 239, 248);
+  pdf.rect(left, y, right - left, height, 'FD');
   text(`Net Pay: ${header.CURR_NAME || 'INR'} ${money(data.netSalary)}`, left + 2, y + 6, true, 11);
   pdf.setFontSize(9);
   pdf.text(words, left + 2, y + 12);

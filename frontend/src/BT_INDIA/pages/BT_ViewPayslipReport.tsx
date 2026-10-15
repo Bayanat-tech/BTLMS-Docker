@@ -14,7 +14,7 @@ import {
 import { Print, PictureAsPdf } from '@mui/icons-material';
 import HrServiceInstance from 'service/Service.hr';
 import { convertToWords } from 'react-number-to-words';
-import { createPayslipPDF, COMPANY_ADDRESS } from '../../utils/payslipPdf';
+import { createPayslipPDF, COMPANY_ADDRESS, maskBank, maskBankAccount, paymentModeLabel } from '../../utils/payslipPdf';
 import React from 'react';
 import useAuth from 'hooks/useAuth';
 
@@ -439,10 +439,10 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
           p: { xs: 2, sm: 4 },
           mx: 'auto',
           my: 2,
-          color: '#171717',
+          color: '#19212d',
           backgroundColor: '#fff',
-          fontFamily: 'Arial, sans-serif',
-          '& *': { fontFamily: 'Arial, sans-serif' },
+          fontFamily: 'Segoe UI, Arial, sans-serif',
+          '& *': { fontFamily: 'Segoe UI, Arial, sans-serif' },
           '@media print': {
             width: '100%',
             maxWidth: 'none',
@@ -460,7 +460,7 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
             alignItems: 'center',
             minHeight: 52,
             pb: 1,
-            borderBottom: '2px solid #171717'
+            borderBottom: '2px solid #234b78'
           }}
         >
           <Box
@@ -520,9 +520,9 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
             ['Section', header.SECTION_NAME],
             ['Period', `${getMonthName(String(header.PAY_MONTH))} / ${header.PAY_YEAR}`],
             ['Currency', header.CURR_NAME],
-            ['Bank Name', header.SALARY_BANK_CODE || header.MAIN_BANK],
-            ['Account No.', header.SALARY_ACCT_NO],
-            ['Mode of Payment', header.PAYMENT_MODE]
+            ['Bank (masked)', maskBank(header.SALARY_BANK_CODE || header.MAIN_BANK)],
+            ['Account No.', maskBankAccount(header.SALARY_ACCT_NO)],
+            ['Mode of Payment', paymentModeLabel(header.PAYMENT_MODE)]
           ].map(([label, value]) => (
             <Box
               key={label}
@@ -557,6 +557,7 @@ const convertAmountToWords = (amount: number, currency: string = 'RIALS'): strin
                   px: 1,
                   borderBottom: '1px solid #333',
                   textAlign: 'center',
+                  backgroundColor: '#e9eff8',
                   fontSize: '0.82rem',
                   fontWeight: 700
                 }}
